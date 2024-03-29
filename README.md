@@ -1,5 +1,5 @@
-# openvino-demo
-Simple to follow OpenVino demo for new comers
+# Intel OpenVino Demo
+A straightforward OpenVino demonstration suitable for newcomers. This demo utilizes the device's webcam to detect faces, emotions, age, and gender.
 
 ## Clone Repo
 ```
