@@ -29,3 +29,4 @@ pip install -r requirements.txt
 python face.py
 ```
 If succeed, the script will access first webcam of your device, and start detect faces, emotions, gender and age.
+![Alt text](demo.jpg)
