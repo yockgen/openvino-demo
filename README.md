@@ -36,3 +36,16 @@ python face.py
 ```
 If succeed, the script will access first webcam of your device, and start detect faces, emotions, gender and age.
 ![Alt text](demo.jpg)
+
+## To play with more other inferencing models
+1. list all downloadable models from OpenVino
+```
+omz_downloader --print_all
+```
+2. Download the model
+```
+ omz_downloader --name text-recognition-0012 --precision FP16
+```
+Upon succeed, user shall see xxx.xml and xxxx.bin model files been download to local directory
+
+3. Use the "face.py" code as reference code to use the new model. 
