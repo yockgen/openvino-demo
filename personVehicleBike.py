@@ -3,16 +3,14 @@ import sys
 
 import cv2
 import numpy as np
-from IPython import display
 from openvino.runtime import Core
-
 
 class nplate_detection():
     def __init__(self):
         
         #load model
         ie = Core()
-        model = ie.read_model(model='models/vehicle-detection-adas-0002.xml')     
+        model = ie.read_model(model='models/person-vehicle-bike-detection-crossroad-0078.xml')     
         
         self.compiled_model = ie.compile_model(model=model, device_name="GPU")
         
@@ -20,25 +18,25 @@ class nplate_detection():
         input_layer = self.compiled_model.input(0)
         self.height, self.width = list(input_layer.shape)[2:4]
         
-    
     def get_boxes(self, frame, results, thresh=0.1):
         # The size of the original frame.
         h, w = frame.shape[:2]
         results = results.squeeze()
         boxes = []
-       
+        
         ttl = 0
         for idx, label, confidence, xmin, ymin, xmax, ymax in results:
-            if (label == 1. or label == 2.) and confidence > thresh:
+            if confidence > thresh:
                 ttl = ttl + 1
-                print ("idx = ", idx, "label = ", label, " conf = ", confidence, " idx = ", ttl , " h = ", ttl , " w = ", w )        
+                print ("idx = ", idx, "label = ", label, " conf = ", confidence, " idx = ", ttl )        
                 # Create a box with pixels coordinates from the box with normalized coordinates [0,1].            
-                boxes.append(tuple(map(int, (xmin * w, ymin * h, (xmax - xmin) * w, (ymax - ymin) * h))))
-        
+                boxes.append(tuple(map(int, (xmin * w, ymin * h, (xmax - xmin) * w, (ymax - ymin) * h, label))))
+            
         if ttl >0:
-            print ("ttl vehicles = ", ttl)
+            print ("ttl objects = ", ttl)
         
         return boxes
+
 
     def get_points(self,box,bounds,stretch=0):
         #the NN can sometimes return negative numbers that makes no sense 
@@ -57,12 +55,31 @@ class nplate_detection():
         return x1,x2,y1,y2
 
     def process_plates(self,frame, boxes):
+
+        #1- person, 2 - vehicle, 3 - bike
+        LBL_NAMES=['ERR','PERSON','VEHICLE','BIKE']
         
         final_image=frame.copy()
         color = (0,200,0)
+        idx = 0
         for box in boxes:
-            x1,x2,y1,y2=self.get_points(box,final_image.shape[:2])
+            
+            x1,x2,y1,y2=self.get_points(box[:4],final_image.shape[:2])
+            lblIdx = int(box[4])
             cv2.rectangle(img=final_image, pt1=(x1,y1), pt2=(x2, y2), color=color, thickness=1)
+            
+            cv2.putText(
+                img=final_image,
+                text=f"{' '}{LBL_NAMES[lblIdx]}",
+                org=(box[0] + 10, box[1] + 30),
+                fontFace=cv2.FONT_HERSHEY_COMPLEX,
+                fontScale=frame.shape[1] / 1000,
+                color=color,
+                thickness=1,
+                lineType=cv2.LINE_AA,
+            )
+
+            idx = idx + 1
      
         return final_image   
 
@@ -91,17 +108,17 @@ else:
             break
 
         #enable this line to check on static image      
-        #frame = cv2.imread("car04.jpg")
-                
+        #frame = cv2.imread("car03.jpg")
+        height, width, _ = frame.shape
+                      
         #openvino inferencing here
         input_img = cv2.resize( src=frame, dsize=(nplate_det.width, nplate_det.height))
         #input_img = cv2.resize( src=frame, dsize=(300, 300))
         input_img = input_img[np.newaxis, ...]
         input_img=np.transpose(input_img,[0,3,1,2])
         results = nplate_det.compiled_model([input_img])[nplate_det.output_layer]
-        boxes = nplate_det.get_boxes(frame=frame, results=results, thresh=0.7)
+        boxes = nplate_det.get_boxes(frame=frame, results=results, thresh=0.5)
         final_output = nplate_det.process_plates(frame=frame, boxes=boxes)  
-        
         # Display the resulting frame
         cv2.imshow('Camera Feed', final_output)
 
