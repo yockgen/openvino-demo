@@ -1,6 +1,13 @@
 # Intel OpenVino Demo
 A straightforward OpenVino demonstration suitable for newcomers. 
 
+## System Requirement Reference
+The code is developed and successfully run under following spec:
+1. CPU: Intel® Core™ i5-9300H Processor
+2. GPU: Intel® UHD Graphics 630
+3. OS: Windows 11 Home
+4. Integrated web cam
+
 ## Clone Repo
 ```
 git clone https://github.com/yockgen/openvino-demo.git
@@ -51,7 +58,7 @@ python personVehicleBike.py
 If succeed, the script will access first webcam of your device, and start detect vehicles.
 ![Alt text](demo03.jpg)
 ___
-## Run Test 4: Integration with HuggingFace on text Classification on positive or negative tone
+## Run Test 4: Integration with HuggingFace on Text Classification
 ```
 python personVehicleBike.py
 ```
@@ -63,8 +70,13 @@ Please enter text to classify (or 'q' to quit): THe product not so as expected
 [{'label': 'NEGATIVE', 'score': 0.9751037359237671}]
 Please enter text to classify (or 'q' to quit):
 ```
-
-
+___
+## Run Test 5: Integration with HuggingFace on Image Generation
+```
+python .\ai-drawing.py "A Cyber Samurai with his Katana, photorealistic"
+```
+If succeed, the AI generated similar image shall shown:    
+![Alt text](demo04.jpg)
 ___
 ## To play with more other inferencing models
 1. list all downloadable models from OpenVino
