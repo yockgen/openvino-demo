@@ -1,5 +1,5 @@
 # Intel OpenVino Demo
-A straightforward OpenVino demonstration suitable for newcomers. This demo utilizes the device's webcam to detect faces, emotions, age, and gender.
+A straightforward OpenVino demonstration suitable for newcomers. 
 
 ## Clone Repo
 ```
@@ -29,14 +29,39 @@ The script by default is expected to run on Intel Integrated GPU, if user would 
 ```
  self.compiled_model = ie.compile_model(model=model, device_name="GPU")
 ```
-
-## Run Test
+___
+## Run Test 1: Face, Age, Gender and Emotion Detection
 ```
 python face.py
 ```
 If succeed, the script will access first webcam of your device, and start detect faces, emotions, gender and age.
 ![Alt text](demo.jpg)
+___
+## Run Test 2: Cars Detection
+```
+python vehicle.py
+```
+If succeed, the script will access first webcam of your device, and start detect vehicles.
+![Alt text](demo02.jpg)
+___
+## Run Test 3: Cars, Person and Bike Detection
+```
+python personVehicleBike.py
+```
+If succeed, the script will access first webcam of your device, and start detect vehicles.
+![Alt text](demo03.jpg)
+___
+## Run Test 4: Integration with HuggingFace on text Classification on positive or negative tone
+```
+python personVehicleBike.py
+```
+If succeed, the script will output positive/negative score
+```
+[{'label': 'NEGATIVE', 'score': 0.9553529024124146}]
+```
 
+
+___
 ## To play with more other inferencing models
 1. list all downloadable models from OpenVino
 ```
