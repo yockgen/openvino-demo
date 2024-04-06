@@ -32,7 +32,7 @@ If succeed, user shall see prompt with venv prefix, example as below:
 pip install -r requirements.txt
 ```
 ## CPU or GPU
-The script by default is expected to run on Intel Integrated GPU, if user would like to change to CPU, please modify accordingly "device_name" in "face.py" (3 of them): 
+All demos by default is expected to run on Intel Integrated GPU, if user would like to change to CPU or others, please search for code containing typically "GPU" and replace accordingly, for example in "face.py": 
 ```
  self.compiled_model = ie.compile_model(model=model, device_name="GPU")
 ```
