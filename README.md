@@ -55,9 +55,13 @@ ___
 ```
 python personVehicleBike.py
 ```
-If succeed, the script will output positive/negative score
+If succeed, the script will prompt for user text input and classified the text's emotion
 ```
-[{'label': 'NEGATIVE', 'score': 0.9553529024124146}]
+Please enter text to classify (or 'q' to quit): I like Penang very much
+[{'label': 'POSITIVE', 'score': 0.9997014403343201}]
+Please enter text to classify (or 'q' to quit): THe product not so as expected
+[{'label': 'NEGATIVE', 'score': 0.9751037359237671}]
+Please enter text to classify (or 'q' to quit):
 ```
 
 
