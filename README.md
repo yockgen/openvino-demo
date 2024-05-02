@@ -60,7 +60,7 @@ If succeed, the script will access first webcam of your device, and start detect
 ___
 ## Run Test 4: Integration with HuggingFace on Text Classification
 ```
-python personVehicleBike.py
+python text-classification.py
 ```
 If succeed, the script will prompt for user text input and classified the text's emotion
 ```
